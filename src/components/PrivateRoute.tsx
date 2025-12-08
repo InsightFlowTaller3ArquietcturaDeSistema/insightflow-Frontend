@@ -6,17 +6,15 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const verifyAuth = async () => {
+    const verifyAuth = () => {
       try {
-        const response = await fetch('http://localhost:3000/usuario/auth/verify', {
-          method: 'GET',
-          credentials: 'include', // Importante: envía las cookies
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        // Verificar si existe el token en las cookies
+        const token = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('token='))
+          ?.split('=')[1];
 
-        if (response.ok) {
+        if (token) {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
