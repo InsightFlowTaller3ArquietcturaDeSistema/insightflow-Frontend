@@ -1,0 +1,678 @@
+/* ===================================
+   CONTENEDOR PRINCIPAL
+   =================================== */
+.board-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, rgba(239, 112, 43, 0.05) 0%, rgba(91, 56, 19, 0.05) 100%);
+}
+
+/* ===================================
+   HEADER
+   =================================== */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 25px 30px;
+    background: linear-gradient(to right, rgba(239, 112, 43, 0.95) 0%, rgba(91, 56, 19, 0.95) 100%);
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 6px 20px rgba(239, 112, 43, 0.3);
+}
+
+.board-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.header-subtitle {
+    margin: 5px 0 0 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.create-btn {
+    background: white;
+    color: #ef702b;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.create-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: white;
+    color: #ef702b;
+    transform: translateY(-2px);
+}
+
+/* ===================================
+   MENSAJES
+   =================================== */
+.error-message {
+    background-color: #fee;
+    color: #c33;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 5px solid #c33;
+    font-weight: 500;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===================================
+   LOADING
+   =================================== */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 20px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(239, 112, 43, 0.2);
+    border-top: 5px solid #ef702b;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+    color: #666;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* ===================================
+   KANBAN BOARD
+   =================================== */
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    align-items: flex-start;
+}
+
+/* Scrollbar personalizado */
+.kanban-board::-webkit-scrollbar {
+    height: 10px;
+}
+
+.kanban-board::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb {
+    background: #ef702b;
+    border-radius: 10px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb:hover {
+    background: #d56324;
+}
+
+/* ===================================
+   COLUMNAS KANBAN
+   =================================== */
+.kanban-column {
+    flex: 1;
+    min-width: 320px;
+    max-width: 400px;
+    background: white;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
+}
+
+.kanban-column:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+}
+
+.pending-header {
+    background: linear-gradient(135deg, #ef702b 0%, #ff8c52 100%);
+    color: white;
+}
+
+.progress-header {
+    background: linear-gradient(135deg, #2b7bef 0%, #52a3ff 100%);
+    color: white;
+}
+
+.completed-header {
+    background: linear-gradient(135deg, #2bef59 0%, #52ff7f 100%);
+    color: white;
+}
+
+.column-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.task-count {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* ===================================
+   LISTA DE TAREAS
+   =================================== */
+.task-list {
+    padding: 15px;
+    min-height: 200px;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+}
+
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.empty-column {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-style: italic;
+}
+
+/* ===================================
+   TARJETAS DE TAREAS
+   =================================== */
+.task-card {
+    background: white;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.in-progress-card {
+    border-left-color: #2b7bef;
+}
+
+.completed-card {
+    border-left-color: #2bef59;
+    opacity: 0.85;
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.task-menu-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #999;
+    transition: all 0.2s ease;
+}
+
+.task-menu-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.task-title {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.completed-title {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.task-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.task-user,
+.task-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ===================================
+   ETIQUETAS DE PRIORIDAD
+   =================================== */
+.priority-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: white;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority-tag.red {
+    background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
+}
+
+.priority-tag.orange {
+    background: linear-gradient(135deg, #ffa940 0%, #ffc069 100%);
+}
+
+.priority-tag.green {
+    background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
+}
+
+/* ===================================
+   ACCIONES DE TARJETA
+   =================================== */
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.action-btn {
+    background: #f5f5f5;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #2b7bef 0%, #52a3ff 100%);
+    color: white;
+}
+
+.start-btn:hover {
+    box-shadow: 0 4px 10px rgba(43, 123, 239, 0.3);
+}
+
+.complete-btn {
+    background: linear-gradient(135deg, #2bef59 0%, #52ff7f 100%);
+    color: white;
+}
+
+.complete-btn:hover {
+    box-shadow: 0 4px 10px rgba(43, 239, 89, 0.3);
+}
+
+.back-btn,
+.reopen-btn {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.back-btn:hover,
+.reopen-btn:hover {
+    background: #d0d0d0;
+}
+
+.delete-btn {
+    background: transparent;
+    font-size: 1.1rem;
+}
+
+.delete-btn:hover {
+    background: #fee;
+    color: #c33;
+}
+
+.check-icon {
+    background: linear-gradient(135deg, #2bef59 0%, #52ff7f 100%);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* ===================================
+   MODAL
+   =================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal {
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.modal .form-group {
+    margin-bottom: 20px;
+}
+
+.modal .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.modal .form-group input,
+.modal .form-group textarea,
+.modal .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.modal .form-group input:focus,
+.modal .form-group textarea:focus,
+.modal .form-group select:focus {
+    outline: none;
+    border-color: #ef702b;
+    box-shadow: 0 0 0 3px rgba(239, 112, 43, 0.1);
+}
+
+.modal .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal .form-group input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.save-btn,
+.cancel-btn {
+    flex: 1;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.save-btn {
+    background: linear-gradient(to right, rgba(239, 112, 43, 0.95) 0%, rgba(91, 56, 19, 0.95) 100%);
+    color: white;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 112, 43, 0.4);
+}
+
+.cancel-btn {
+    background-color: #e0e0e0;
+    color: #555;
+}
+
+.cancel-btn:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-2px);
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 1024px) {
+    .kanban-board {
+        overflow-x: scroll;
+    }
+    
+    .kanban-column {
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .board-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .board-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .create-btn,
+    .logout-btn {
+        width: 100%;
+    }
+
+    .kanban-board {
+        flex-direction: column;
+    }
+
+    .kanban-column {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .task-card-header {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .board-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .task-title {
+        font-size: 1rem;
+    }
+
+    .task-description {
+        font-size: 0.85rem;
+    }
+
+    .card-actions {
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        flex: 1;
+        min-width: 100px;
+    }
+}

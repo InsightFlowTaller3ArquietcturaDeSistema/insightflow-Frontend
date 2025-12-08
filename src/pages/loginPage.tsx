@@ -19,9 +19,11 @@ export default function Login(){
                 usuario,
                 contrasenia
             });
+
             Cookies.set('token',res.data.token);
-            Cookies.set('usuario', res.data.usuario);
-            navigate('/Usuarios');
+            Cookies.set("usuario", res.data.data[0]);
+            Cookies.set("userid", res.data.data[1]);
+            navigate('/Dashboard');
         }catch(error){
             setError("Credenciales incorrectas");
         }
