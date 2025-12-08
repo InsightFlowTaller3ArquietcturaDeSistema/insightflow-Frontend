@@ -3,11 +3,19 @@ import { Outlet, useNavigate, useLocation, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../css/landingCss.css";
 
+/**
+ * Componente de diseño del panel de control con barra lateral y contenido principal dinámico.
+ * @returns JSX.Element
+ */
 export default function DashboardLayout() {
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setUser] = useState({ name: "", id: "" });
 
+    /**
+     * Verifica la autenticación del usuario al montar el componente
+     * y obtiene la información del usuario desde las cookies.
+     */
     useEffect(() => {
         const token = Cookies.get("token");
         
@@ -21,12 +29,20 @@ export default function DashboardLayout() {
         }
     }, [navigate]);
 
+    /**
+     * Maneja el cierre de sesión del usuario
+     */
     const handleLogout = () => {
         Cookies.remove("token");
         Cookies.remove("usuario");
         navigate("/");
     };
 
+    /**
+     * Marca si una ruta está activa
+     * @param path ruta a verificar
+     * @returns boolean indicando si la ruta está activa
+     */
     const isActive = (path: string): boolean => location.pathname.includes(path);
 
     return (

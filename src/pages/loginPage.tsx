@@ -5,13 +5,20 @@ import Cookies from "js-cookie";
 import "../css/loginCss.css";
 import insightflowImg from "../assets/insightflow.png";
 
+/**
+ * Componente de la página de inicio de sesión.
+ * @returns JSX.Element
+ */
 export default function Login(){
     const [usuario,setUsuario] = useState("");
     const [contrasenia, setContrasenia] = useState("");
     const [loading, setLoading] = useState(false);
     const [error,setError] = useState("");
     const navigate = useNavigate();
-
+    /**
+     * Maneja el evento de inicio de sesión cuando se envía el formulario.
+     * @param e Evento de envío del formulario
+     */
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         try{
