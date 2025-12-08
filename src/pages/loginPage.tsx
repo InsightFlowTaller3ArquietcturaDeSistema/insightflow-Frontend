@@ -21,7 +21,7 @@ export default function Login(){
             });
             Cookies.set('token',res.data.token);
             Cookies.set('usuario', res.data.usuario);
-            navigate('/dashboardUsuario');
+            navigate('/Usuarios');
         }catch(error){
             setError("Credenciales incorrectas");
         }
@@ -58,7 +58,7 @@ export default function Login(){
                         </button>
                         {error && <p className="error">{error}</p>}
                     </form>
-                    <button type="button" className="register-btn" onClick={() => navigate('/register')}>
+                    <button type="button" className="register-btn" onClick={() => navigate('/Register')}>
                         Registrar
                     </button>
                 </div>
