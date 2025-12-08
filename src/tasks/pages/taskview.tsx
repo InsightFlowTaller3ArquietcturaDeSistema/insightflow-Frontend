@@ -4,6 +4,9 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import "../css/taskBoard.css";
 
+/**
+ * Interfaz que define la estructura de una tarea
+ */
 interface Task {
     id: string;
     documentId: string;
@@ -18,20 +21,25 @@ interface Task {
     active: boolean;
 }
 
+/**
+ * Componente principal del tablero de tareas que maneja la visualización,
+ * búsqueda, creación, edición y eliminación de tareas.
+ * @returns JSX.Element
+ */
 export default function TaskBoard() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [editingTask, setEditingTask] = useState<Task | null>(null);
-    
-    // --- ESTADOS PARA LA BÚSQUEDA ---
     const [searchType, setSearchType] = useState<'ALL' | 'DOCUMENT' | 'USER'>('ALL');
     const [searchQuery, setSearchQuery] = useState("");
     
     const navigate = useNavigate();
 
-    // Formulario para crear/editar tarea
+    /** 
+     * Estado del formulario para crear/editar tareas
+     */
     const [formData, setFormData] = useState({
         documentId: "",
         title: "",
@@ -44,8 +52,10 @@ export default function TaskBoard() {
 
     const API_BASE_URL = "https://task-service-5dmf.onrender.com/api/tasks";
 
-    // --- FUNCIÓN UNIFICADA DE CARGA DE TAREAS ---
-    // Esta función decide qué endpoint llamar basándose en el tipo de búsqueda
+    /**
+     * --- FUNCIÓN UNIFICADA DE CARGA DE TAREAS ---
+     * Esta función decide qué endpoint llamar basándose en el tipo de búsqueda
+     */
     const fetchTasks = async (type = searchType, query = searchQuery) => {
         setLoading(true);
         setError("");
@@ -90,12 +100,16 @@ export default function TaskBoard() {
         }
     };
 
-    // Cargar todas al inicio
+    /**
+     * --- CARGA INICIAL DE TAREAS AL MONTAR EL COMPONENTE ---
+     */
     useEffect(() => {
         fetchTasks('ALL', '');
     }, []);
 
-    // --- MANEJADORES DE BÚSQUEDA ---
+    /**
+     * --- MANEJO DE BÚSQUEDA ---
+     */
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (searchType !== 'ALL' && !searchQuery.trim()) {
@@ -105,15 +119,20 @@ export default function TaskBoard() {
         fetchTasks();
     };
 
+    /**
+     * 
+     */
     const handleClearSearch = () => {
         setSearchType('ALL');
         setSearchQuery("");
         fetchTasks('ALL', '');
     };
 
-    // ... (El resto de funciones: updateTaskStatus, handleCreateTask, handleDeleteTask, etc. QUEDAN IGUAL) ...
-    // ... Copia tus funciones updateTaskStatus, handleCreateTask, handleUpdateTask, handleDeleteTask, openModals ...
-    
+    /**
+     * Modifica el estado de una tarea
+     * @param id id de la tarea
+     * @param newStatus nuevo estado de la tarea
+     */
     const updateTaskStatus = async (id: string, newStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED') => {
         try {
             const token = Cookies.get('token');
@@ -123,9 +142,10 @@ export default function TaskBoard() {
         } catch (err) { alert("No se pudo actualizar el estado"); }
     };
 
-    // (Para ahorrar espacio, asumo que tienes aquí handleCreateTask, handleUpdateTask, etc. 
-    // Asegúrate de que cuando llamen a fetchTasks(), lo hagan sin argumentos o gestionen el refresh)
-    
+    /**
+     * Maneja la creación de una nueva tarea
+     * @param e evento del formulario
+     */
     const handleCreateTask = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.title.trim() || !formData.documentId.trim() || !formData.assignedUserId.trim()) {
@@ -136,10 +156,13 @@ export default function TaskBoard() {
             await axios.post(API_BASE_URL, { ...formData, dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : new Date().toISOString() }, { headers: { Authorization: `Bearer ${token}` } });
             setShowModal(false);
             resetForm();
-            fetchTasks(); // Recargar lista
+            fetchTasks(); 
         } catch (err) { setError("Error al crear tarea"); }
     };
-
+    /**
+     * Maneja la actualización de una tarea existente
+     * @param e evento del formulario
+     */
     const handleUpdateTask = async (e: React.FormEvent) => {
         e.preventDefault();
         if(!editingTask) return;
@@ -159,7 +182,10 @@ export default function TaskBoard() {
             fetchTasks();
         } catch (err) { setError("Error al actualizar"); }
     };
-
+    /**
+     * Maneja la eliminación de una tarea
+     * @param id id de la tarea a eliminar
+     */
     const handleDeleteTask = async (id: string) => {
         if (!window.confirm("¿Eliminar tarea?")) return;
         try {
@@ -169,7 +195,15 @@ export default function TaskBoard() {
         } catch (err) { alert("Error al eliminar"); }
     };
 
+    /**
+     * Abre el modal para crear una nueva tarea o editar una existente
+     */
     const openCreateModal = () => { resetForm(); setEditingTask(null); setShowModal(true); };
+
+    /**
+     * Abre el modal para editar una tarea existente
+     * @param task tarea a editar
+     */
     const openEditModal = (task: Task) => {
         setEditingTask(task);
         setFormData({
@@ -183,15 +217,32 @@ export default function TaskBoard() {
         });
         setShowModal(true);
     };
+    /**
+     * Resetea el formulario del modal
+     */
     const resetForm = () => {
         setFormData({ documentId: "", title: "", description: "", status: "PENDING", priority: "MEDIUM", assignedUserId: "", dueDate: "" });
         setError("");
     };
+    /**
+     * Maneja el cierre de sesión del usuario
+     */
     const handleLogout = () => { Cookies.remove('token'); Cookies.remove('usuario'); navigate('/'); };
+    /**
+     * Obtiene las tareas filtradas por estado
+     * @param status estado de la tarea
+     * @returns arreglo de tareas filtradas
+     */
     const getTasksByStatus = (status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'): Task[] => tasks.filter((t) => t.status === status && t.active);
+    
+    /**
+     * Obtiene el color asociado a la prioridad
+     * @param priority prioridad de la tarea
+     * @returns color asociado a la prioridad
+     */
     const getPriorityColor = (priority: 'HIGH' | 'MEDIUM' | 'LOW'): string => { if (priority === 'HIGH') return 'red'; if (priority === 'MEDIUM') return 'orange'; return 'green'; };
 
-
+    
     return (
         <div className="board-container">
             <header className="board-header">
