@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import insightflowImg from "../assets/insightflow.png";
 import "../css/registerCss.css"
 
+/**
+ * Componente de la página de registro de usuario.
+ * @returns JSX.Element
+ */
 export default function Register(){
     const [nombre_completo,setNombre_completo]= useState("");
     const [apellidos,setApellidos] = useState("");
@@ -16,7 +20,10 @@ export default function Register(){
     const [error,setError] = useState("");
 
     const navigate = useNavigate();
-
+    /**
+     * Maneja el registro del usuario cuando se envía el formulario.
+     * @param e Evento de envío del formulario
+     */
     const  handleRegister = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
 

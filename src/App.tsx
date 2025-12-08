@@ -7,6 +7,9 @@ import CrudUsuarios from './auth/pages/crudUsuarios.tsx'
 import PrivateRoute from './components/PrivateRoute.tsx'
 import LandingPage from './pages/landingPage.tsx'
 
+/**
+ * Componente principal que define las rutas de la aplicación.
+ */
 function App() {
   return (
     
