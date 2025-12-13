@@ -77,7 +77,12 @@ export default function DashboardLayout() {
                         Gestión de Usuarios
                     </Link>
 
-                    {/* DOCUMENTS Y WORKSPACE SERVICES */}
+                    <Link to="/dashboard/Documents" className={`nav-item ${isActive('Documents') ? 'active' : ''}`}>
+                        <span className="icon">📄</span>
+                        Documentos
+                    </Link>
+
+                    {/* WORKSPACE SERVICE */}
                     <div className="nav-item disabled">
                         <span className="icon">📂</span>
                         Espacios
