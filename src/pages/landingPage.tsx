@@ -83,10 +83,10 @@ export default function DashboardLayout() {
                     </Link>
 
                     {/* WORKSPACE SERVICE */}
-                    <div className="nav-item disabled">
+                    <Link to="/dashboard/Workspaces" className={`nav-item ${isActive('Workspaces') ? 'active' : ''}`}>
                         <span className="icon">📂</span>
-                        Espacios
-                    </div>
+                        Workspaces
+                    </Link>
                 </nav>
 
                 <div className="sidebar-footer">
