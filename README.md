@@ -154,7 +154,7 @@ Servicio|URL Base (Render)|
 |Documents Service|https://insightflow-documents-drw9.onrender.com
 |Workspaces Service|(URL de tu servicio de espacios)
 
-# 1. Documents Service
+### 1. Documents Service
 
 | Método HTTP | Endpoint            | Descripción                                           |
 |-------------|---------------------|-------------------------------------------------------|
@@ -164,7 +164,7 @@ Servicio|URL Base (Render)|
 | PATCH       | /documents/{id}     | Actualiza título, ícono o contenido.                  |
 | DELETE      | /documents/{id}     | Elimina un documento.                                 |
 
-# 2. Task Service
+### 2. Task Service
 
 | Método HTTP | Endpoint                           | Descripción                                                         |
 |-------------|------------------------------------|----------------------------------------------------------|
@@ -177,7 +177,7 @@ Servicio|URL Base (Render)|
 | PATCH       | /api/tasks/{id}                    | Actualiza detalles (título, prioridad, fecha).                     |
 | DELETE      | /api/tasks/{id}                    | Elimina lógicamente una tarea.                                     |
 
-# 3. User Service
+### 3. User Service
 
 | Método HTTP | Endpoint               | Descripción                                             |
 |-------------|------------------------|---------------------------------------------------------|
@@ -187,7 +187,7 @@ Servicio|URL Base (Render)|
 | PATCH       | /usuario/users/{id}    | Actualiza perfil (nombre, correo, contraseña).         |
 | DELETE      | /usuario/users/{id}    | Desactiva o elimina un usuario.                        |
 
-# 4. Workspace Service
+### 4. Workspace Service
 
 | Método HTTP | Endpoint             | Descripción                                           |
 |-------------|----------------------|-------------------------------------------------------|
