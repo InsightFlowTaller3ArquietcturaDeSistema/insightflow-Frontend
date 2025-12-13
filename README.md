@@ -152,7 +152,7 @@ Servicio|URL Base (Render)|
 |Tasks Service|https://task-service-5dmf.onrender.com
 |Users Service|https://user-services-13hx.onrender.com
 |Documents Service|https://insightflow-documents-drw9.onrender.com
-|Workspaces Service|(URL de tu servicio de espacios)
+|Workspaces Service|https://insightflow-workspace-service-fe4d.onrender.com/workspaces
 
 ### 1. Documents Service
 
