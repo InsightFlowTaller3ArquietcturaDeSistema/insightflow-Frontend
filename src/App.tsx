@@ -5,6 +5,7 @@ import Register from './pages/registerPage.tsx'
 import Tasks from './tasks/pages/taskview.tsx'
 import CrudUsuarios from './auth/pages/crudUsuarios.tsx'
 import DocumentsView from './documents/pages/documentsView.tsx'
+import WorkspaceView from './workspaces/pages/workspaceView.tsx'
 import PrivateRoute from './components/PrivateRoute.tsx'
 import LandingPage from './pages/landingPage.tsx'
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='Tasks' element={<Tasks />} />
         <Route path='Usuarios' element={<CrudUsuarios />} />
         <Route path='Documents' element={<DocumentsView />} />
+        <Route path='Workspaces' element={<WorkspaceView />} />
       </Route>
     </Routes>
   )
